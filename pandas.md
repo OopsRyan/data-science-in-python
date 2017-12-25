@@ -250,8 +250,113 @@ Multiple same indexs must be defined in the way like *s2*, since the dictionary 
 			df.rename(columns={col:'Gold'}, inplace=True) 
 
 ### Querying a DataFrame
+	df['Gold'] > 0
+	#
+	Afghanistan (AFG)                               False
+	Algeria (ALG)                                    True
+	Argentina (ARG)                                  True
+	Name: Gold, dtype: bool
+
+	only_gold = df.where(df['Gold'] > 0)
+	# DataFrame
+
+	only_gold['Gold'].count()
+	# 100
+
+	df['Gold'].count()
+	147
+
+	# drop those rows with NaN data
+	only_gold = only_gold.dropna()
+
+	only_gold = df[df['Gold'] > 0]
+	only_gold.head()
+	# DataFrame
+
+	len( df[ (df['Gold'] > 0) | (df['Gold.1'] > 0)])
+	# 101
+
+	df[ (df['Gold.1'] >0) | (df['Gold'] == 0)]
+	# DataFrame
 
 
+### Indexing DataFrames
+	df.head()
+	#
+		q		w		e
+	0   ads  	 		
+	1	zxc
+	2	asd
+
+	# change the index to the dimension q, create a new column using the index a, or the data of a will miss
+	df['a'] = df.index
+	df = df.set_index('q')
+	df.head()
+	#
+		w		e 		a
+	q      	 		
+	ads 				0
+	zxc 				1
+	asd 				2
+
+	# reset the index
+	df = df.reset_index()
+	#
+		q		w		e 		a
+	0   ads 					0  	 		
+	1	zxc						1
+	2	asd 					2
+
+	df = pd.read_csv('bb.csv')
+	#
+		sum 	iii
+	0 	40		s
+	1	50		s
+	2	50		x
+
+	df['sum'].unique()
+	# array([40, 50])
+
+	df = df[df['sum'] == 50]
+	#
+		sum 	iii
+	1	50		s
+	2	50		s
+
+	columns_to_keep = ['sum']
+	df = df[columns_to_keep]
+	#
+		sum
+	1	50
+	2	50
+
+### Missing Values
+	df = pd.read_csv('log.csv')
+	#
+		a 		b 		c
+	0	False 	10.0	10
+	1	NaN		NaN		13
+	2	NaN		NaN		7
+	3	NaN		NaN		4
+
+	df = df.set_index('c')
+	df = df.sort_index()
+	#
+		a 		b
+	c
+	4   NaN		NaN
+	7	NaN		NaN
+	10	False	10.0
+	13	NaN		NaN
+
+	df = df.fillna(method='ffill')
+	#
+		a 		b
+	c
+	4   False	10.0
+	7	False	10.0
+	10	False	10.0
+	13	False	10.0
 
 
 
