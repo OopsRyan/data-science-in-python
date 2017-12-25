@@ -49,4 +49,114 @@
 	Hockey         NaN
 	dtype: object
 
-###
+### Query a Series
+
+	sports = {'Archery': 'Bhutan', 'Golf': 'Scotland', 'Sumo': 'Japan', 'Taekwondo': 'South Korea'}
+	s = pd.Series(sports)
+
+	#
+	Archery           Bhutan
+	Golf            Scotland
+	Sumo               Japan
+	Taekwondo    South Korea
+	dtype: object
+
+	s.iloc[3]
+	# 
+	'South Korea'
+
+	s.loc['Golf']
+	#
+	'Scotland'
+
+	s[3]
+	#
+	'South Korea'
+
+	s['Golf']
+	#
+	'Scotland'
+
+---
+##### Efficiency Comparison between iteration and np.sum()
+	s = pd.Series(np.random.randint(0,1000,10000))
+	s.head() ## the top 5 lines
+	len(s) ## 10000
+	## iteration
+	%% timeit -n 100
+	summary = 0
+	for item in s:
+		summary += item
+	
+	# 100 loops, best of 3: 1.85 ms per loop
+
+	%% timeit -n 100
+	summary = np.sum(s)
+
+	# 100 loops, best of 3: 104 µs per loop
+---
+
+`s += 2` adds two to each item in s using broadcasting
+
+	s = pd.Series([1, 2, 3])
+	s.loc['Animal'] = 'Bears'
+	#
+	0             1
+	1             2
+	2             3
+	Animal    Bears
+	dtype: object
+
+Multiple same indexs must be defined in the way like *s2*, since the dictionary objects(*s1*) are set where indexs are unique.
+
+	s1 = pd.Series({'a':'1', 'b':'2'}) 
+	s2 = pd.Series(['3','4','5'], index=['c','c','c']) 
+	s = s1.append(s2)
+	s
+	# 
+	a    1
+	b    2 
+	c    3
+	c    4
+	c    5
+	dtype: object
+
+	s.loc['c']
+	#
+	c    3
+	c    4
+	c    5
+	dtype: object
+
+### The DataFrame
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
