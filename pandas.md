@@ -130,23 +130,126 @@ Multiple same indexs must be defined in the way like *s2*, since the dictionary 
 
 ### The DataFrame
 
+	purchase_1 = pd.Series({'Name':'Chris', 'Item Purchased':'Dog Food', 'Cost':22.50})
+	purchase_2 = pd.Series({'Name':'Kevyn', 'Item Purchased':'Kitty Litter', 'Cost':2.50})
+	purchase_1 = pd.Series({'Name':'Vinod', 'Item Purchased':'Bird Seed', 'Cost':5.00})
+	df = pd.DataFrame([purchase_1, purchase_2, purchase_3], index = ['Store 1', 'Store 1', 'Store 2'])
+	df.head()
+	#
+			Cost	Item Purchased	Name
+	Store 1	22.5	Dog Food		Chris
+	Store 1	2.5		Kitty Litter	Kevyn
+	Store 2	5.0		Bird Seed		Vinod
+
+	df.loc['Store2']
+	#
+	Cost                      5
+	Item Purchased    Bird Seed
+	Name                  Vinod
+	Name: Store2, dtype: object
+
+	type(df.loc['Store 2'])
+	# pandas.core.series.Series
+
+	df.loc['Store 1']
+	#
+			Cost	Item Purchased	Name
+	Store 1	22.5	Dog Food		Chris
+	Store 1	2.5		Kitty Litter	Kevyn
+
+	df.loc['Store1', 'Cost']
+	#
+	Store 1    22.5
+	Store 1     2.5
+	Name: Cost, dtype: float64
+
+	df.T
+	#
+					Store 1		Store 1			Store 2
+	Cost			22.5		2.5				5
+	Item Purchased	Dog Food	Kitty Litter	Bird Seed
+	Name			Chris		Kevyn			Vinod
+
+	df['Cost']
+	#
+	Store 1    22.5
+	Store 1     2.5
+	Store 2     5.0
+	Name: Cost, dtype: float64
+
+	df.loc['Store 1']['Cost']
+	#
+	Store 1    22.5
+	Store 1     2.5
+	Name: Cost, dtype: float64
+
+	df.loc[:, ['Name','Cost']]
+	#
+			Name	Cost
+	Store 1	Chris	22.5
+	Store 1	Kevyn	2.5
+	Store 2	Vinod	5.0
+
+	df.drop('Store 1')
+	#
+			Cost	Item Purchased	Name
+	Store 2	5.0		Bird Seed		Vinod
+
+	copy_df = df.copy()
+	copy_df = copy_df.drop('Store 1')
+	copy_df
+	#
+			Cost	Item Purchased	Name
+	Store 2	5.0		Bird Seed		Vinod
+
+	del copy_df['Name']
+	copy_df
+	#
+			Cost	Item Purchased	Name
+	Store 2	5.0		Bird Seed		Vinod
+
+	df['Location'] = None
+	#
+			Cost	Item Purchased	Name   Location
+	Store 1	22.5	Dog Food		Chris  None
+	Store 1	2.5		Kitty Litter	Kevyn  None
+	Store 2	5.0		Bird Seed		Vinod  None
 
 
+### DataFrame indexing and loading
+	costs = df['Cost']
+	#
+	Store 1    22.5
+	Store 1     2.5
+	Store 2     5.0
+	Name: Cost, dtype: float64
+
+	costs += 2
+	#
+	Store 1    24.5
+	Store 1     4.5
+	Store 2     7.0
+	Name: Cost, dtype: float64
+
+	df
+	#
+			Cost	Item Purchased	Name   Location
+	Store 1	24.5	Dog Food		Chris  None
+	Store 1	4.5		Kitty Litter	Kevyn  None
+	Store 2	7.0		Bird Seed		Vinod  None
 
 
+	df = pd.read_csv('aa.csv', index_col=0, skiprow=1)
+	df.head()
 
+	df.columns
 
+	# modify column names
+	for col in df.columns:
+		if col[:2] == '01':
+			df.rename(columns={col:'Gold'}, inplace=True) 
 
-
-
-
-
-
-
-
-
-
-
+### Querying a DataFrame
 
 
 
